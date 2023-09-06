@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- TensorFlow.js 和模型加载代码 -->
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+
+  <script>
+    // 获取canvas和绘画上下文
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    // 在鼠标移动时绘制路径
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function draw(e) {
+      if (!isDrawing) return;
+      context.beginPath();
+      context.moveTo(lastX, lastY);
+      context.lineTo(e.offsetX, e.offsetY);
+      context.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+    // 使用AI模型生成绘画结果
+    async function generateDrawing() {
+      const imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const input = tf.browser.fromPixels(imgData).reshape([1, canvas.width, canvas.height, 4]).toFloat();
+      
+      // 这里添加使用AI模型生成结果的代码，例如：
+      // const output = model.predict(input);
+      // const result = Array.from(output.dataSync());
+
+      // 绘制AI模型生成的结果
+      // 这里使用ctx.drawImage()或者其他绘制方法将结果渲染到canvas上
+    }
+
+    // 添加一个生成绘画按钮
+    const generateButton = document.createElement('button');
+    generateButton.innerHTML = '生成绘画';
+    generateButton.addEventListener('click', generateDrawing);
+  
+    document.body.appendChild(generateButton);
+  </script>
+</body>
+</html>
