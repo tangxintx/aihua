@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.8.0/dist/tfjs-converter.js"></script>
+
+  <script>
+    async function loadModel() {
+      const modelURL = 'furry.safetensors/model.json';
+      const model = await tf.loadGraphModel(modelURL);
+      // 模型加载完毕后执行其他操作
+      console.log('模型加载成功！');
+    }
+
+    loadModel();
+  </script>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+</html>
